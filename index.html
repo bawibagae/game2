@@ -71,7 +71,7 @@
 
         let score = 0, obstacles = [], isGameRunning = false, isPaused = false;
         let mouseX = 0, mouseY = 0;
-        let currentSpeed = 5, spawnInterval = 350, spawnTimer = null, animationId = null;
+        let currentSpeed = 3, spawnInterval = 350, spawnTimer = null, animationId = null;
 
         // 기기 체크 (모바일 여부)
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -199,7 +199,10 @@
             if(spawnTimer) clearInterval(spawnTimer);
             spawnTimer = setInterval(() => {
                 if(isGameRunning && !isPaused) {
-                    const count = 2 + Math.floor(score / 70); 
+                    const baseCount = 2 + Math.floor(score / 70); 
+
+                    const count = isMobile ? Math.max(1, Math.floor(baseCount * 0.5)) : baseCount;
+
                     for(let i=0; i<count; i++) obstacles.push(createObstacle());
                 }
             }, spawnInterval);
